@@ -1,0 +1,15 @@
+
+/* Class = "UITabBarItem"; title = "Settings"; ObjectID = "7m8-th-4tY"; */
+"7m8-th-4tY.title" = "设置";
+
+/* Class = "UINavigationItem"; title = "Settings"; ObjectID = "AAY-0P-dSu"; */
+"AAY-0P-dSu.title" = "设置";
+
+/* Class = "UILabel"; text = "提醒时间"; ObjectID = "Ek0-DL-wBd"; */
+"Ek0-DL-wBd.text" = "提醒时间";
+
+/* Class = "UILabel"; text = "签到提醒"; ObjectID = "H7S-74-9nS"; */
+"H7S-74-9nS.text" = "签到提醒";
+
+/* Class = "UILabel"; text = "设置提醒"; ObjectID = "dWt-uw-3BS"; */
+"dWt-uw-3BS.text" = "设置提醒";

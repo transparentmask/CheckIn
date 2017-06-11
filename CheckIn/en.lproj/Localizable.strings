@@ -1,0 +1,12 @@
+/* 
+  content.strings
+  CheckIn
+
+  Created by Martin Yin on 10/06/2017.
+  Copyright © 2017 Martin Yin. All rights reserved.
+*/
+
+
+"CINotificationTitle" = "It's time to CheckIn";
+"CINotificationBody" = "Let's do all checkin jobs!";
+

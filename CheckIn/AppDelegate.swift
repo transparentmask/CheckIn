@@ -7,20 +7,68 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        let splitViewController = window!.rootViewController as! UISplitViewController
-        let navigationController = splitViewController.viewControllers[splitViewController.viewControllers.count-1] as! UINavigationController
-        navigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
-        splitViewController.delegate = self
+        
+        checkUpdate()
+        
+        _ = CIAllAppsList.shared
+        if !FileManager.default.fileExists(atPath: CILocalApps.listFile.path) {
+            try? FileManager.default.copyItem(at: Bundle.main.url(forResource: "apps", withExtension: "json")!, to: CILocalApps.listFile)
+        }
+        
         return true
+    }
+    
+    func checkUpdate() {
+        let manager: SessionManager = {
+            let configuration = URLSessionConfiguration.default
+            configuration.requestCachePolicy = .reloadIgnoringLocalAndRemoteCacheData
+            configuration.urlCache = nil
+            return SessionManager(configuration: configuration)
+        }()
+        
+        manager.request("https://nas.mask911.net/checkin/update.json").responseData { response in
+            if let data = response.result.value {
+                let json = JSON(data)
+                
+                if let remoteVersion = json["version"].string, let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String, let package = json["package"].string, let packageURL = URL(string: package), remoteVersion > version {
+                    
+                    let alert = UIAlertController(title: "发现新版本", message: "现在有个新版本: \(remoteVersion), 升级一下呗.", preferredStyle: .alert)
+                    
+                    if let force = json["force"].bool, force == true {
+                    }
+                    else {
+                        let laterAction = UIAlertAction(title: "再说", style: .default, handler: { action in
+                            alert.dismiss(animated: true, completion: nil)
+                        })
+                        alert.addAction(laterAction)
+                    }
+
+                    let updateAction = UIAlertAction(title: "升级去", style: .default, handler: { action in
+                        DispatchQueue.main.async {
+                            UIApplication.shared.open(packageURL, completionHandler: { result in
+                                exit(0)
+                            })
+                        }
+                    })
+                    alert.addAction(updateAction)
+
+                    if let tabbarController = self.window?.rootViewController as? UITabBarController, let viewController = tabbarController.selectedViewController {
+                        viewController.present(alert, animated: true, completion: nil)
+                    }
+                }
+            }
+        }
+
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -31,6 +79,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        
+        CILocalApps.shared.saveList()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -43,18 +93,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    }
-
-    // MARK: - Split view
-
-    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController:UIViewController, onto primaryViewController:UIViewController) -> Bool {
-        guard let secondaryAsNavController = secondaryViewController as? UINavigationController else { return false }
-        guard let topAsDetailController = secondaryAsNavController.topViewController as? DetailViewController else { return false }
-        if topAsDetailController.detailItem == nil {
-            // Return true to indicate that we have handled the collapse by doing nothing; the secondary controller will be discarded.
-            return true
-        }
-        return false
     }
 
 }

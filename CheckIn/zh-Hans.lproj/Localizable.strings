@@ -1,0 +1,12 @@
+/* 
+  content.strings
+  CheckIn
+
+  Created by Martin Yin on 10/06/2017.
+  Copyright © 2017 Martin Yin. All rights reserved.
+*/
+
+
+"CINotificationTitle" = "是时候来签到啦";
+"CINotificationBody" = "别磨蹭, 速度来签到!";
+

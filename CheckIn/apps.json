@@ -1,0 +1,77 @@
+{
+	"update": 1494986788,
+	"apps": [
+		{
+			"id": "com.360buy.jdmobile",
+			"name": "京东",
+			"icon": "https://nas.mask911.net/checkin/com.360buy.jdmobile@2x.png",
+			"url": "openjd:open"
+		},
+		{
+			"id": "com.taobao.taobao4iphone",
+			"name": "淘宝",
+			"icon": "https://nas.mask911.net/checkin/com.taobao.taobao4iphone@2x.png",
+			"url": "taobao://"
+		},
+		{
+			"id": "com.yihaodian.onethestore",
+			"name": "1号店",
+			"icon": "https://nas.mask911.net/checkin/com.yihaodian.onethestore@2x.png",
+			"url": "yhd://"
+		},
+		{
+			"id": "com.dmall.dmall",
+			"name": "多点",
+			"icon": "https://nas.mask911.net/checkin/com.dmall.dmall@2x.png",
+			"url": "dmall://"
+		},
+		{
+			"id": "com.yiguo.YiGuoApp",
+			"name": "易果生鲜",
+			"icon": "https://nas.mask911.net/checkin/com.yiguo.YiGuoApp@2x.png",
+			"url": "com.yiguo.app://"
+		},
+		{
+			"id": "com.fruitday.Fruitday",
+			"name": "天天果园",
+			"icon": "https://nas.mask911.net/checkin/com.fruitday.Fruitday@2x.png",
+			"url": "fruitday://"
+		},
+		{
+			"id": "com.babytree.pregnancy",
+			"name": "宝宝树",
+			"icon": "https://nas.mask911.net/checkin/com.babytree.pregnancy@2x.png",
+			"url": "babytree://"
+		},
+		{
+			"id": "com.cainiao.cnwireless",
+			"name": "菜鸟裹裹",
+			"icon": "https://nas.mask911.net/checkin/com.cainiao.cnwireless@2x.png",
+			"url": "cainiao://"
+		},
+		{
+			"id": "com.autonavi.amap",
+			"name": "高德地图",
+			"icon": "https://nas.mask911.net/checkin/com.autonavi.amap@2x.png",
+			"url": "iosamap://"
+		},
+		{
+			"id": "com.360buy.lebook",
+			"name": "京东阅读",
+			"icon": "https://nas.mask911.net/checkin/com.360buy.lebook@2x.png",
+			"url": "openapp.jdebook://"
+		},
+		{
+			"id": "ctrip.com",
+			"name": "携程",
+			"icon": "https://nas.mask911.net/checkin/ctrip.com@2x.png",
+			"url": "ctrip://"
+		},
+		{
+			"id": "com.netease.kaola",
+			"name": "网易考拉",
+			"icon": "https://nas.mask911.net/checkin/com.netease.kaola@2x.png",
+			"url": "kaola://"
+		}
+	]
+}

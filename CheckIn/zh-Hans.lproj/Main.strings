@@ -1,0 +1,24 @@
+
+/* Class = "UITabBarItem"; title = "Checkin"; ObjectID = "0xy-mM-txM"; */
+"0xy-mM-txM.title" = "签到";
+
+/* Class = "UINavigationItem"; title = "全部App列表"; ObjectID = "3zh-58-sTs"; */
+"3zh-58-sTs.title" = "全部App列表";
+
+/* Class = "UIViewController"; title = "全部App列表"; ObjectID = "5bh-bH-Wgh"; */
+"5bh-bH-Wgh.title" = "全部App列表";
+
+/* Class = "UINavigationItem"; title = "一起来签到"; ObjectID = "Izz-hK-2mh"; */
+"Izz-hK-2mh.title" = "一起来签到";
+
+/* Class = "UIButton"; normalTitle = "+"; ObjectID = "KQJ-xa-JCu"; */
+"KQJ-xa-JCu.normalTitle" = "+";
+
+/* Class = "UINavigationController"; title = "Main Navigation"; ObjectID = "RMx-3f-FxP"; */
+"RMx-3f-FxP.title" = "Main Navigation";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "ZUA-BY-xBz"; */
+"ZUA-BY-xBz.text" = "Title";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "kw1-Xd-6DX"; */
+"kw1-Xd-6DX.text" = "Label";
