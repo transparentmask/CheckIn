@@ -21,19 +21,22 @@ class CINotificationTimeCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
     @IBOutlet var titleLabel: UILabel? = nil
     @IBOutlet var timePicker: UIPickerView? = nil
     
-    var pickerHandler: ((Int) -> Void)? = nil
+    var pickerHandler: ((Int, Int) -> Void)? = nil
     
     var time: Int {
         get {
             if let timePicker = timePicker {
-                return timePicker.selectedRow(inComponent: 0)
+                return timePicker.selectedRow(inComponent: 0)*60 + timePicker.selectedRow(inComponent: 2)*5
             }
             
             return 21
         }
         set {
             if let timePicker = timePicker {
-                timePicker.selectRow(newValue, inComponent: 0, animated: false)
+                let hour = newValue/60
+                let minute = (newValue - hour*60)/5
+                timePicker.selectRow(hour, inComponent: 0, animated: false)
+                timePicker.selectRow(minute, inComponent: 2, animated: false)
             }
         }
     }
@@ -43,7 +46,7 @@ class CINotificationTimeCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return (component == 0) ? 24 : 1
+        return (component == 0) ? 24 : 12
     }
     
     func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
@@ -66,13 +69,13 @@ class CINotificationTimeCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
             return ":"
         }
         else {
-            return "00"
+            return String(format: "%.2i", row*5)
         }
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if let pickerHandler = pickerHandler {
-            pickerHandler(row)
+            pickerHandler(pickerView.selectedRow(inComponent: 0), pickerView.selectedRow(inComponent: 2)*5)
         }
     }
 }
@@ -111,14 +114,14 @@ class CISettingsViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
 //    var notificationTimes: [Int] = [21]
-    var notificationTime: Int = 21 {
+    var notificationTime: Int = 21*60 {
         didSet {
             saveSettings()
             self.tableView?.reloadSections(IndexSet.init(integer: 0), with: .automatic)
         }
     }
     
-    var tmpTime: Int = 21 {
+    var tmpTime: Int = 21*60 {
         didSet {
             if usingLocalNotification {
                 self.tableView?.reloadRows(at: [IndexPath(row: 2, section: 0)], with: .fade)
@@ -146,9 +149,13 @@ class CISettingsViewController: UIViewController, UITableViewDelegate, UITableVi
         let userDefaults = UserDefaults.standard
         
         usingLocalNotification = userDefaults.bool(forKey: "CIUsingLocalNotification")
-        if userDefaults.object(forKey: "CINotificationTime") != nil {
-            notificationTime = userDefaults.integer(forKey: "CINotificationTime")
+        if userDefaults.object(forKey: "CINotificationTime2") != nil {
+            notificationTime = userDefaults.integer(forKey: "CINotificationTime2")
         }
+        else if userDefaults.object(forKey: "CINotificationTime") != nil {
+            notificationTime = userDefaults.integer(forKey: "CINotificationTime")*60
+        }
+        tmpTime = notificationTime
 //        if let times = userDefaults.array(forKey: "CINotificationTimes") as? [Int] {
 //            self.notificationTimes.removeAll()
 //            self.notificationTimes.append(contentsOf: times)
@@ -159,7 +166,7 @@ class CISettingsViewController: UIViewController, UITableViewDelegate, UITableVi
         let userDefaults = UserDefaults.standard
         
         userDefaults.set(usingLocalNotification, forKey: "CIUsingLocalNotification")
-        userDefaults.set(notificationTime, forKey: "CINotificationTime")
+        userDefaults.set(notificationTime, forKey: "CINotificationTime2")
 //        userDefaults.set(notificationTimes, forKey: "CINotificationTimes")
         
         userDefaults.synchronize()
@@ -195,8 +202,8 @@ class CISettingsViewController: UIViewController, UITableViewDelegate, UITableVi
             
 //            cell.time = notificationTimes.first!
             cell.time = notificationTime
-            cell.pickerHandler = { time in
-                self.tmpTime = time
+            cell.pickerHandler = { hour, minute in
+                self.tmpTime = hour*60 + minute
             }
             
             return cell
@@ -276,10 +283,13 @@ class CISettingsViewController: UIViewController, UITableViewDelegate, UITableVi
             UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: allIdentifiers)
             
 //            for time in notificationTimes {
+                let hour = notificationTime/60
+                let minute = notificationTime - hour*60
+
                 var dateComponents = Calendar.current.dateComponents([.timeZone], from: Date())
-                dateComponents.hour = notificationTime
-            dateComponents.minute = 17
-                
+                dateComponents.hour = hour
+                dateComponents.minute = minute
+            
                 let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
                 let request = UNNotificationRequest(identifier: "CINotificationHour", content: content, trigger: trigger)
                 UNUserNotificationCenter.current().add(request, withCompletionHandler: { error in
