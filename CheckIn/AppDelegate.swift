@@ -29,14 +29,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func checkUpdate() {
-        let manager: SessionManager = {
-            let configuration = URLSessionConfiguration.default
-            configuration.requestCachePolicy = .reloadIgnoringLocalAndRemoteCacheData
-            configuration.urlCache = nil
-            return SessionManager(configuration: configuration)
-        }()
+        struct Network {
+            static let manager: SessionManager = {
+                let configuration = URLSessionConfiguration.default
+                configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
+                configuration.urlCache = nil
+                return SessionManager(configuration: configuration)
+            }()
+        }
         
-        manager.request("https://nas.mask911.net/checkin/update.json").responseData { response in
+        Network.manager.request("https://nas.mask911.net/checkin/update.json").responseData { response in
             if let data = response.result.value {
                 let json = JSON(data)
                 
@@ -68,7 +70,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
-
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
