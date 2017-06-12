@@ -14,6 +14,7 @@ class CIAppCollectionCell: UICollectionViewCell {
     @IBOutlet var imageView: UIImageView? = nil
     @IBOutlet var titleLabel: UILabel? = nil
     @IBOutlet var checkmarkView: BEMCheckBox? = nil
+    @IBOutlet var updateImageView: UIImageView? = nil
     
     override func prepareForReuse() {
         imageView?.layer.cornerRadius = 4
@@ -89,24 +90,30 @@ class CIAllAppsListViewController: UIViewController, UICollectionViewDelegate, U
         
         let app = CIAllAppsList.shared.allApps[indexPath.item]
         cell.fillWithApp(appInfo: app, indexPath: indexPath)
-        cell.checkmarkView?.on = CILocalApps.shared.isAppInLocalList(appInfo: app)
+        let appInLocalList = CILocalApps.shared.isAppInLocalList(app)
+        cell.checkmarkView?.on = appInLocalList
         cell.checkmarkView?.delegate = self
+        cell.updateImageView?.isHidden = !appInLocalList || CILocalApps.shared.isAppSameInLocalList(app)
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell: CIAppCollectionCell = collectionView.cellForItem(at: indexPath) as! CIAppCollectionCell
         let app = CIAllAppsList.shared.allApps[indexPath.item]
-
-        if CILocalApps.shared.isAppInLocalList(appInfo: app) {
-            CILocalApps.shared.removeAppFromList(appInfo: app)
-            cell.checkmarkView?.setOn(false, animated: true)
+        
+        if CILocalApps.shared.isAppInLocalList(app) {
+            if CILocalApps.shared.isAppSameInLocalList(app) {
+                CILocalApps.shared.removeAppFromList(app)
+            }
+            else {
+                CILocalApps.shared.updateAppInfo(app)
+            }
         }
         else {
             CILocalApps.shared.allApps.append(app)
-            cell.checkmarkView?.setOn(true, animated: true)
         }
+        
+        collectionView.reloadItems(at: [indexPath])
     }
     
     func didTap(_ checkBox: BEMCheckBox) {

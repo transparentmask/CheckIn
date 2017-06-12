@@ -29,7 +29,7 @@
 			"id": "com.yiguo.YiGuoApp",
 			"name": "易果生鲜",
 			"icon": "https://nas.mask911.net/checkin/com.yiguo.YiGuoApp@2x.png",
-			"url": "com.yiguo.app://"
+			"url": "com.yiguo.app://open"
 		},
 		{
 			"id": "com.fruitday.Fruitday",

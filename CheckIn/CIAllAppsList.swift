@@ -50,7 +50,7 @@ final class CIAllAppsList: NSObject {
             }
             if let apps = json["apps"].array {
                 for app in apps {
-                    allApps.append(CIAppInfo(appInfo: app))
+                    allApps.append(CIAppInfo(app))
                 }
             }
             

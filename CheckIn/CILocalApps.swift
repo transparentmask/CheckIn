@@ -34,7 +34,7 @@ class CILocalApps: NSObject {
             let json = JSON(data)
             if let apps = json["apps"].array {
                 for app in apps {
-                    allApps.append(CIAppInfo(appInfo: app))
+                    allApps.append(CIAppInfo(app))
                 }
             }
         }
@@ -76,7 +76,7 @@ class CILocalApps: NSObject {
         return nil
     }
     
-    func isAppInLocalList(appInfo: CIAppInfo) -> Bool {
+    func isAppInLocalList(_ appInfo: CIAppInfo) -> Bool {
         for app in allApps {
             if app.id == appInfo.id {
                 return true
@@ -86,7 +86,26 @@ class CILocalApps: NSObject {
         return false
     }
     
-    func removeAppFromList(appInfo: CIAppInfo) {
+    func isAppSameInLocalList(_ appInfo: CIAppInfo) -> Bool {
+        for app in allApps {
+            if app.id == appInfo.id {
+                return app == appInfo
+            }
+        }
+        
+        return false
+    }
+    
+    func updateAppInfo(_ appInfo: CIAppInfo) {
+        for (index, app) in allApps.enumerated() {
+            if app.id == appInfo.id {
+                allApps[index] = appInfo
+                break
+            }
+        }
+    }
+    
+    func removeAppFromList(_ appInfo: CIAppInfo) {
         for (index, app) in allApps.enumerated() {
             if app.id == appInfo.id {
                 allApps.remove(at: index)

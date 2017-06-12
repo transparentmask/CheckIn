@@ -168,6 +168,10 @@
                                                         <constraint firstAttribute="width" constant="20" id="af3-28-WCa"/>
                                                     </constraints>
                                                 </view>
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="update" translatesAutoresizingMaskIntoConstraints="NO" id="u7s-c9-fw2">
+                                                    <rect key="frame" x="0.0" y="0.0" width="51" height="51"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
                                             </subviews>
                                         </view>
                                         <constraints>
@@ -184,6 +188,7 @@
                                             <outlet property="checkmarkView" destination="CGm-G0-eeN" id="rLR-oz-ugJ"/>
                                             <outlet property="imageView" destination="2qv-TD-VKt" id="p2i-di-KGS"/>
                                             <outlet property="titleLabel" destination="kw1-Xd-6DX" id="ciH-d2-nAt"/>
+                                            <outlet property="updateImageView" destination="u7s-c9-fw2" id="VKC-Ib-sXI"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -222,5 +227,6 @@
         <image name="add" width="60" height="60"/>
         <image name="checkin" width="30" height="30"/>
         <image name="defaultIcon" width="34" height="34"/>
+        <image name="update" width="51" height="51"/>
     </resources>
 </document>

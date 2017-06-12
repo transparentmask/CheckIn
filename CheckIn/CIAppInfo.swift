@@ -44,14 +44,14 @@ class CIAppInfo: NSObject, NSCoding {
         super.init()
     }
     
-    convenience init(appInfo: JSON) {
+    convenience init(_ appJSON: JSON) {
         self.init()
         
-        id = appInfo["id"].string
-        name = appInfo["name"].string
-        iconURL = appInfo["icon"].string
-        url = appInfo["url"].string
-        if let time = appInfo["checkinTime"].double {
+        id = appJSON["id"].string
+        name = appJSON["name"].string
+        iconURL = appJSON["icon"].string
+        url = appJSON["url"].string
+        if let time = appJSON["checkinTime"].double {
             checkinTime = time
         }
     }
@@ -95,5 +95,13 @@ class CIAppInfo: NSObject, NSCoding {
                 }
             })
         }
+    }
+    
+    static func ==(lhs: CIAppInfo, rhs: CIAppInfo) -> Bool {
+        return lhs.id == rhs.id && lhs.name == rhs.name && lhs.iconURL == rhs.iconURL && lhs.url == rhs.url
+    }
+    
+    static func !=(lhs: CIAppInfo, rhs: CIAppInfo) -> Bool {
+        return !(lhs == rhs)
     }
 }
